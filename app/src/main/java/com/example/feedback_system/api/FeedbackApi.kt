@@ -8,12 +8,25 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
 
+
+data class LoginResponse(
+    val token: String,
+    val user: UserResponse
+)
+
+data class UserResponse(
+    val email: String,
+    val username: String,
+    val role: Int
+)
+
 interface FeedbackApi {
     @POST("/api/auth/register")
     fun register(@Body body: Map<String, String>): Call<Any>
 
+    // FeedbackApi.kt - Update the login method return type
     @POST("/api/auth/login")
-    fun login(@Body body: Map<String, String>): Call<Any>
+    fun login(@Body body: Map<String, String>): Call<Map<String, Any>>
 
     @POST("/api/admin/adminregister")
     fun adminRegister(@Body body: Map<String, String>): Call<Any>

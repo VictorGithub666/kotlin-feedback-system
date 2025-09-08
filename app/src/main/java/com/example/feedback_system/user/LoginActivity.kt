@@ -15,6 +15,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.feedback_system.R
+import com.example.feedback_system.admin.AdminDashboardActivity
 import com.example.feedback_system.api.ApiClient
 import com.example.feedback_system.ui.theme.FeedbacksystemTheme
 import com.example.feedback_system.ui.theme.PasswordTextField
@@ -36,6 +37,7 @@ class LoginActivity : ComponentActivity() {
     }
 }
 
+// LoginActivity.kt
 @Composable
 fun LoginScreen() {
     val context = LocalContext.current
@@ -63,26 +65,53 @@ fun LoginScreen() {
 
         Spacer(modifier = Modifier.height(16.dp))
 
+        // LoginActivity.kt - Fixed version
         RedButton(text = "Login") {
             val data = mapOf("email" to email, "password" to password)
-            ApiClient.apiService.login(data).enqueue(object : Callback<Any> {
-                override fun onResponse(call: Call<Any>, response: Response<Any>) {
+            ApiClient.apiService.login(data).enqueue(object : Callback<Map<String, Any>> {
+                override fun onResponse(call: Call<Map<String, Any>>, response: Response<Map<String, Any>>) {
                     if (response.isSuccessful) {
-                        val responseBody = response.body() as? Map<*, *>
-                        responseBody?.get("user")?.let { user ->
-                            val userMap = user as? Map<*, *>
-                            val username = userMap?.get("username")?.toString() ?: ""
-                            FeedbackSession.currentUsername = username
+                        val responseBody = response.body()
+                        if (responseBody != null) {
+                            println("DEBUG: Full response: $responseBody")
+
+                            // Parse the user object correctly
+                            val userMap = responseBody["user"] as? Map<String, Any>
+                            if (userMap != null) {
+                                val username = userMap["username"] as? String ?: ""
+                                val role = (userMap["role"] as? Number)?.toInt() ?: 0
+
+                                println("DEBUG: Username: $username, Role: $role")
+
+                                FeedbackSession.currentUsername = username
+                                FeedbackSession.userRole = role
+
+                                Toast.makeText(context, "Login successful", Toast.LENGTH_SHORT).show()
+
+                                // Route based on role
+                                val intent = if (role == 1) {
+                                    Intent(context, AdminDashboardActivity::class.java)
+                                } else {
+                                    Intent(context, UserDashboardActivity::class.java)
+                                }
+                                context.startActivity(intent)
+                            } else {
+                                Toast.makeText(context, "User data not found in response", Toast.LENGTH_SHORT).show()
+                                println("DEBUG: User map is null")
+                            }
+                        } else {
+                            Toast.makeText(context, "Empty response body", Toast.LENGTH_SHORT).show()
                         }
-                        Toast.makeText(context, "Login successful", Toast.LENGTH_SHORT).show()
-                        context.startActivity(Intent(context, UserDashboardActivity::class.java))
                     } else {
-                        Toast.makeText(context, "Invalid credentials", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "Invalid credentials - Code: ${response.code()}", Toast.LENGTH_SHORT).show()
+                        println("DEBUG: Response error: ${response.errorBody()?.string()}")
                     }
                 }
 
-                override fun onFailure(call: Call<Any>, t: Throwable) {
+                override fun onFailure(call: Call<Map<String, Any>>, t: Throwable) {
                     Toast.makeText(context, "Error: ${t.message}", Toast.LENGTH_LONG).show()
+                    println("DEBUG: Network error: ${t.message}")
+                    t.printStackTrace()
                 }
             })
         }
