@@ -24,7 +24,6 @@ interface FeedbackApi {
     @POST("/api/auth/register")
     fun register(@Body body: Map<String, String>): Call<Any>
 
-    // FeedbackApi.kt - Update the login method return type
     @POST("/api/auth/login")
     fun login(@Body body: Map<String, String>): Call<Map<String, Any>>
 
@@ -81,6 +80,21 @@ interface FeedbackApi {
 
     @DELETE("/api/module/delete-module/{id}")
     fun deleteModule(@Path("id") id: Int): Call<Any>
+
+    @GET("/api/questions/get-all-questions")
+    fun getAllQuestions(): Call<List<Question>>
+
+    @GET("/api/questions/get-question/{id}")
+    fun getQuestion(@Path("id") id: Int): Call<Question>
+
+    @POST("/api/questions/create-question")
+    fun createQuestion(@Body body: Map<String, @JvmSuppressWildcards Any>): Call<Question>
+
+    @PUT("/api/questions/update-question/{id}")
+    fun updateQuestion(@Path("id") id: Int, @Body body: Map<String, @JvmSuppressWildcards Any>): Call<Question>
+
+    @DELETE("/api/questions/delete-question/{id}")
+    fun deleteQuestion(@Path("id") id: Int): Call<Void>
 }
 
 object ApiClient {

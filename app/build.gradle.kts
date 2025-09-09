@@ -66,5 +66,24 @@ dependencies {
  implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
  implementation ("androidx.datastore:datastore-preferences:1.0.0")
     implementation("androidx.compose.material:material-icons-extended:1.5.0")
+    // Jetpack Compose BOM to align versions
+    implementation(platform("androidx.compose:compose-bom:2024.05.00"))
+
+    // Compose UI + Text + Material3
+    implementation("androidx.compose.ui:ui")
+    implementation("androidx.compose.ui:ui-text")
+    implementation("androidx.compose.ui:ui-tooling-preview")
+    implementation("androidx.compose.material3:material3")
+
+    // Activity Compose integration
+    implementation("androidx.activity:activity-compose")
+
+    // Lifecycle (optional but recommended for coroutines & state handling)
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
+
+    // Debugging tools
+    debugImplementation("androidx.compose.ui:ui-tooling")
+    debugImplementation("androidx.compose.ui:ui-test-manifest")
+
 
 }

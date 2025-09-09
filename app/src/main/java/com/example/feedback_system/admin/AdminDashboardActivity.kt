@@ -112,8 +112,8 @@ fun AdminDashboardScreen() {
                     description = "Manage feedback questions",
                     iconRes = R.drawable.ic_questions,
                     onClick = {
-                        // Navigate to Questions Management
-                        // TODO: Implement Questions activity
+                        val intent = Intent(context, QuestionsListActivity::class.java)
+                        context.startActivity(intent)
                     },
                     modifier = Modifier.weight(1f)
                 )
