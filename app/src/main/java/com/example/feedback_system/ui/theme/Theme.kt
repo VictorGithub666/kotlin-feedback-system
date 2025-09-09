@@ -16,6 +16,10 @@ import androidx.compose.ui.unit.dp
 val AppRed = Color(0xFFD32F2F)
 val AppWhite = Color.White
 val AppBlack = Color.Black
+// Add to your existing Theme.kt
+val CardBackground = Color(0xFFFFFFFF)
+val CardTextColor = Color(0xFF333333)
+val CardShadow = Color(0x1A000000)
 
 // === Color Schemes ===
 private val DarkColorScheme = darkColorScheme(
