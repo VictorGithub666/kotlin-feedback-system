@@ -157,12 +157,20 @@ fun QuestionsListScreen(
             )
         },
         floatingActionButton = {
-            FloatingActionButton(
-                onClick = onAddQuestion,
-                containerColor = Color(0xFFD32F2F),
-                contentColor = Color.White
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp),
+                contentAlignment = Alignment.BottomStart
             ) {
-                Icon(Icons.Default.Add, contentDescription = "Add Question")
+                FloatingActionButton(
+                    onClick = onAddQuestion,
+                    containerColor = Color(0xFFD32F2F),
+                    contentColor = Color.White,
+
+                    ) {
+                    Icon(Icons.Default.Add, contentDescription = "Add Question")
+                }
             }
         }
     ) { innerPadding ->
