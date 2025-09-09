@@ -313,6 +313,7 @@ fun AddEditQuestionScreen(
     questionId: Int? = null,
     onBack: () -> Unit
 ) {
+
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     var questionText by remember { mutableStateOf("") }
@@ -373,6 +374,12 @@ fun AddEditQuestionScreen(
             )
         }
     ) { innerPadding ->
+        Surface(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding),
+            color = Color.White
+        ){
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -440,7 +447,8 @@ fun AddEditQuestionScreen(
                             )
 
                             val response = if (isEditMode && questionId != null) {
-                                ApiClient.apiService.updateQuestion(questionId, questionData).execute()
+                                ApiClient.apiService.updateQuestion(questionId, questionData)
+                                    .execute()
                             } else {
                                 ApiClient.apiService.createQuestion(questionData).execute()
                             }
@@ -450,7 +458,8 @@ fun AddEditQuestionScreen(
                                     onBack()
                                 } else {
                                     val errorCode = response.code()
-                                    val errorBody = response.errorBody()?.string() ?: "No error body"
+                                    val errorBody =
+                                        response.errorBody()?.string() ?: "No error body"
                                     errorMessage = "Server error: $errorCode - $errorBody"
                                 }
                             }
@@ -460,7 +469,8 @@ fun AddEditQuestionScreen(
                             }
                         } catch (e: ConnectException) {
                             withContext(Dispatchers.Main) {
-                                errorMessage = "Cannot connect to server. Check if server is running."
+                                errorMessage =
+                                    "Cannot connect to server. Check if server is running."
                             }
                         } catch (e: SSLHandshakeException) {
                             withContext(Dispatchers.Main) {
@@ -503,5 +513,7 @@ fun AddEditQuestionScreen(
 
 
         }
+
+    }
     }
 }
