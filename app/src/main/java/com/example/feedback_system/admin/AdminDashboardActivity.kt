@@ -131,17 +131,35 @@ fun AdminDashboardScreen() {
                 )
             }
 
-            // Second Row - Reports (full width) - Red with white text
-            DashboardCard(
-                title = "Reports",
-                description = "View feedback reports and analytics",
-                iconRes = R.drawable.ic_reports,
-                onClick = {
-                    // Navigate to Reports
-                    // TODO: Implement Reports activity
-                },
-                modifier = Modifier.fillMaxWidth()
-            )
+            // Second Row - Modules and Reports
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(24.dp)
+            ) {
+                // Modules Card - Red with white text
+                DashboardCard(
+                    title = "Modules",
+                    description = "Manage modules",
+                    iconRes = R.drawable.ic_modules,
+                    onClick = {
+                        val intent = Intent(context, ModulesListActivity::class.java)
+                        context.startActivity(intent)
+                    },
+                    modifier = Modifier.weight(1f)
+                )
+
+                // Reports Card - Red with white text
+                DashboardCard(
+                    title = "Reports",
+                    description = "View feedback reports",
+                    iconRes = R.drawable.ic_reports,
+                    onClick = {
+                        // Navigate to Reports
+                        // TODO: Implement Reports activity
+                    },
+                    modifier = Modifier.weight(1f)
+                )
+            }
         }
     }
 }
