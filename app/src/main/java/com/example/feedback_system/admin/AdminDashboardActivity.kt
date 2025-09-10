@@ -154,8 +154,8 @@ fun AdminDashboardScreen() {
                     description = "View feedback reports",
                     iconRes = R.drawable.ic_reports,
                     onClick = {
-                        // Navigate to Reports
-                        // TODO: Implement Reports activity
+                        val intent = Intent(context, ReportsActivity::class.java)
+                        context.startActivity(intent)
                     },
                     modifier = Modifier.weight(1f)
                 )

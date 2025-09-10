@@ -127,6 +127,15 @@ interface FeedbackApi {
 
     @DELETE("/api/trainer/delete-trainer/{id}")
     fun deleteTrainer(@Path("id") id: Int): Call<Void>
+
+    @GET("/api/feedback/get-trainers-for-reports")
+    fun getTrainersForReports(): Call<List<Map<String, String>>>
+
+    @GET("/api/feedback/get-trainer-performance/{trainerName}")
+    fun getTrainerPerformance(@Path("trainerName") trainerName: String): Call<Map<String, Any>>
+
+    @GET("/api/feedback/get-module-performance")
+    fun getModulePerformance(): Call<List<Map<String, Any>>>
 }
 
 object ApiClient {

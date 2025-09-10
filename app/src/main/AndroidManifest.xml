@@ -19,6 +19,7 @@
         <activity android:name=".admin.QuestionsListActivity" />
         <activity android:name=".admin.TrainersListActivity"/>
         <activity android:name=".admin.ModulesListActivity"/>
+        <activity android:name=".admin.ReportsActivity"/>
         <activity android:name=".user.DebugActivity"/>
 
         <activity android:name=".user.LoginActivity" />
