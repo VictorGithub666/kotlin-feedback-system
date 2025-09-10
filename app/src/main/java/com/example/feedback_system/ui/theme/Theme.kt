@@ -69,7 +69,7 @@ fun RedButton(text: String, onClick: () -> Unit) {
     Button(
         onClick = onClick,
         colors = ButtonDefaults.buttonColors(
-            containerColor = MaterialTheme.colorScheme.primary,
+            containerColor = Color(0xFFD32F2F),
             contentColor = MaterialTheme.colorScheme.onPrimary
         ),
         modifier = Modifier
@@ -94,10 +94,10 @@ fun StyledOutlinedTextField(
         modifier = Modifier.fillMaxWidth(),
         colors = OutlinedTextFieldDefaults.colors(
             focusedBorderColor = Color(0xFFD32F2F),
-            cursorColor = MaterialTheme.colorScheme.primary,
+            cursorColor = Color(0xFFD32F2F),
             focusedLabelColor = Color(0xFFD32F2F),
-            unfocusedBorderColor = MaterialTheme.colorScheme.secondary,
-            unfocusedLabelColor = MaterialTheme.colorScheme.onSurface,
+            unfocusedBorderColor = Color(0xFFD32F2F),
+            unfocusedLabelColor = Color(0xFFD32F2F),
             focusedTextColor = Color(0xFFD32F2F)
         )
     )
