@@ -124,8 +124,8 @@ fun AdminDashboardScreen() {
                     description = "Manage trainers",
                     iconRes = R.drawable.ic_trainers,
                     onClick = {
-                        // Navigate to Trainers Management
-                        // TODO: Implement Trainers activity
+                        val intent = Intent(context, TrainersListActivity::class.java)
+                        context.startActivity(intent)
                     },
                     modifier = Modifier.weight(1f)
                 )

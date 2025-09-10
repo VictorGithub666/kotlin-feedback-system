@@ -3,6 +3,8 @@ package com.example.feedback_system.api
 import com.example.feedback_system.models.Question
 import com.example.feedback_system.models.Trainer
 import com.example.feedback_system.models.Module
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -95,6 +97,34 @@ interface FeedbackApi {
 
     @DELETE("/api/questions/delete-question/{id}")
     fun deleteQuestion(@Path("id") id: Int): Call<Void>
+
+    // Add these endpoints to your FeedbackApi interface
+    @GET("/api/trainer/get-trainer/{id}")
+    fun getTrainer(@Path("id") id: Int): Call<Trainer>
+
+    @POST("/api/trainer/create-trainer")
+    fun createTrainer(@Body body: Map<String, @JvmSuppressWildcards Any>): Call<Trainer>
+
+    @Multipart
+    @POST("/api/trainer/create-trainer-with-image")
+    fun createTrainerWithImage(
+        @Part("trainerName") trainerName: RequestBody,
+        @Part image: MultipartBody.Part?
+    ): Call<Trainer>
+
+    @PUT("/api/trainer/edit-trainer/{id}")
+    fun updateTrainer(@Path("id") id: Int, @Body body: Map<String, @JvmSuppressWildcards Any>): Call<Trainer>
+
+    @Multipart
+    @PUT("/api/trainer/edit-trainer-with-image/{id}")
+    fun updateTrainerWithImage(
+        @Path("id") id: Int,
+        @Part("trainerName") trainerName: RequestBody,
+        @Part image: MultipartBody.Part?
+    ): Call<Trainer>
+
+    @DELETE("/api/trainer/delete-trainer/{id}")
+    fun deleteTrainer(@Path("id") id: Int): Call<Void>
 }
 
 object ApiClient {
