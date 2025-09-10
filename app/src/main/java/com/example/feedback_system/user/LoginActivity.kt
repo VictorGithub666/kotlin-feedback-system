@@ -6,13 +6,16 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import com.example.feedback_system.R
 import com.example.feedback_system.admin.AdminDashboardActivity
@@ -37,7 +40,6 @@ class LoginActivity : ComponentActivity() {
     }
 }
 
-// LoginActivity.kt
 @Composable
 fun LoginScreen() {
     val context = LocalContext.current
@@ -63,9 +65,23 @@ fun LoginScreen() {
 
         PasswordTextField(value = password, onValueChange = { password = it })
 
+        Spacer(modifier = Modifier.height(8.dp))
+
+        // Forgot Password Link
+        Text(
+            text = "Forgot Password?",
+            modifier = Modifier
+                .align(Alignment.End)
+                .clickable {
+//                    val intent = Intent(context, ForgotPasswordActivity::class.java)
+//                    context.startActivity(intent)
+                },
+            color = Color.Red,
+            style = MaterialTheme.typography.bodySmall
+        )
+
         Spacer(modifier = Modifier.height(16.dp))
 
-        // LoginActivity.kt - Fixed version
         RedButton(text = "Login") {
             val data = mapOf("email" to email, "password" to password)
             ApiClient.apiService.login(data).enqueue(object : Callback<Map<String, Any>> {

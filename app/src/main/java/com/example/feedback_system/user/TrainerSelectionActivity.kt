@@ -18,6 +18,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -30,9 +31,6 @@ import com.example.feedback_system.utils.FeedbackSession
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class TrainerSelectionActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,6 +45,7 @@ class TrainerSelectionActivity : ComponentActivity() {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TrainerSelectionScreen() {
     val context = LocalContext.current
@@ -73,47 +72,68 @@ fun TrainerSelectionScreen() {
         }
     }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
-    ) {
-        Text(
-            text = "Select Trainer",
-            fontSize = 24.sp,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(bottom = 16.dp)
-        )
-
-        if (isLoading) {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
-                CircularProgressIndicator()
-            }
-        } else if (trainers.isEmpty()) {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
-                Text("No trainers available")
-            }
-        } else {
-            LazyColumn {
-                items(trainers) { trainer ->
-                    TrainerCard(
-                        trainer = trainer,
-                        onClick = {
-                            FeedbackSession.selectedTrainerName = trainer.trainerName
-                            val intent = Intent(context, ModuleSelectionActivity::class.java).apply {
-                                putExtra("USERNAME", username)
-                                putExtra("TRAINER_NAME", trainer.trainerName)
-                            }
-                            context.startActivity(intent)
-                        }
+    Scaffold(
+        topBar = {
+            CenterAlignedTopAppBar(
+                title = {
+                    Text(
+                        "Select Trainer",
+                        style = MaterialTheme.typography.headlineSmall.copy(
+                            fontWeight = FontWeight.Bold,
+                            color = Color.Red
+                        )
                     )
-                    Spacer(modifier = Modifier.height(8.dp))
+                },
+                navigationIcon = {
+                    // Logo on the left
+                    Image(
+                        painter = painterResource(id = R.drawable.istlogo),
+                        contentDescription = "IST Logo",
+                        modifier = Modifier.size(40.dp)
+                    )
+                },
+                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                    containerColor = Color(0xFFFFFFFF)
+                )
+            )
+        }
+    ) { innerPadding ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+                .padding(16.dp)
+        ) {
+            if (isLoading) {
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    CircularProgressIndicator()
+                }
+            } else if (trainers.isEmpty()) {
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text("No trainers available")
+                }
+            } else {
+                LazyColumn {
+                    items(trainers) { trainer ->
+                        TrainerCard(
+                            trainer = trainer,
+                            onClick = {
+                                FeedbackSession.selectedTrainerName = trainer.trainerName
+                                val intent = Intent(context, ModuleSelectionActivity::class.java).apply {
+                                    putExtra("USERNAME", username)
+                                    putExtra("TRAINER_NAME", trainer.trainerName)
+                                }
+                                context.startActivity(intent)
+                            }
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+                    }
                 }
             }
         }

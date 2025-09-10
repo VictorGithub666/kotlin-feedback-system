@@ -70,7 +70,7 @@ fun RedButton(text: String, onClick: () -> Unit) {
         onClick = onClick,
         colors = ButtonDefaults.buttonColors(
             containerColor = Color(0xFFD32F2F),
-            contentColor = MaterialTheme.colorScheme.onPrimary
+            contentColor = Color.White
         ),
         modifier = Modifier
             .fillMaxWidth()

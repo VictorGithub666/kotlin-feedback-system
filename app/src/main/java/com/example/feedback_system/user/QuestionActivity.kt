@@ -12,8 +12,10 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -34,6 +36,7 @@ class QuestionActivity : ComponentActivity() {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun QuestionScreen() {
     val context = LocalContext.current
@@ -79,75 +82,97 @@ fun QuestionScreen() {
 
     val currentQuestion = questions[currentQuestionIndex]
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(
-            text = "Question ${currentQuestionIndex + 1} of ${questions.size}",
-            fontSize = 18.sp,
-            modifier = Modifier.padding(bottom = 16.dp)
-        )
-
-        Text(
-            text = currentQuestion.questionText,
-            fontSize = 20.sp,
-            textAlign = TextAlign.Center,
-            modifier = Modifier.padding(bottom = 32.dp)
-        )
-
-        Row(
+    Scaffold(
+        topBar = {
+            CenterAlignedTopAppBar(
+                title = {
+                    Text(
+                        "Question ${currentQuestionIndex + 1} of ${questions.size}",
+                        style = MaterialTheme.typography.headlineSmall.copy(
+                            fontWeight = FontWeight.Bold,
+                            color = Color.Red
+                        )
+                    )
+                },
+                navigationIcon = {
+                    // Logo on the left
+                    Image(
+                        painter = painterResource(id = R.drawable.istlogo),
+                        contentDescription = "IST Logo",
+                        modifier = Modifier.size(40.dp)
+                    )
+                },
+                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                    containerColor = Color(0xFFFFFFFF)
+                )
+            )
+        }
+    ) { innerPadding ->
+        Column(
             modifier = Modifier
-                .padding(bottom = 32.dp)
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceEvenly
+                .fillMaxSize()
+                .padding(innerPadding)
+                .padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            for (i in 1..5) {
-                Image(
-                    painter = painterResource(
-                        id = when (i) {
-                            1 -> R.drawable.rating1
-                            2 -> R.drawable.rating2
-                            3 -> R.drawable.rating3
-                            4 -> R.drawable.rating4
-                            else -> R.drawable.rating5
-                        }
-                    ),
-                    contentDescription = "Rating $i",
-                    modifier = Modifier
-                        .size(64.dp)
-                        .clickable {
-                            selectedRating = i
-                        }
+            Text(
+                text = currentQuestion.questionText,
+                fontSize = 20.sp,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.padding(bottom = 32.dp)
+            )
+
+            Row(
+                modifier = Modifier
+                    .padding(bottom = 32.dp)
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceEvenly
+            ) {
+                for (i in 1..5) {
+                    Image(
+                        painter = painterResource(
+                            id = when (i) {
+                                1 -> R.drawable.rating1
+                                2 -> R.drawable.rating2
+                                3 -> R.drawable.rating3
+                                4 -> R.drawable.rating4
+                                else -> R.drawable.rating5
+                            }
+                        ),
+                        contentDescription = "Rating $i",
+                        modifier = Modifier
+                            .size(64.dp)
+                            .clickable {
+                                selectedRating = i
+                            }
+                    )
+                }
+            }
+
+            if (selectedRating > 0) {
+                Text(
+                    text = "Selected: $selectedRating",
+                    fontSize = 18.sp,
+                    modifier = Modifier.padding(bottom = 16.dp)
                 )
             }
-        }
 
-        if (selectedRating > 0) {
-            Text(
-                text = "Selected: $selectedRating",
-                fontSize = 18.sp,
-                modifier = Modifier.padding(bottom = 16.dp)
-            )
-        }
+            Spacer(modifier = Modifier.weight(1f))
 
-        Spacer(modifier = Modifier.weight(1f))
-
-        Button(
-            onClick = {
-                // Save answer for current question
-                FeedbackSession.questionAnswers[currentQuestion.questionNumber] = selectedRating
-                selectedRating = 0
-                currentQuestionIndex++
-            },
-            enabled = selectedRating > 0,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text(
-                text = if (currentQuestionIndex < questions.size - 1) "Next" else "Preview Feedback"
-            )
+            Button(
+                onClick = {
+                    // Save answer for current question
+                    FeedbackSession.questionAnswers[currentQuestion.questionNumber] = selectedRating
+                    selectedRating = 0
+                    currentQuestionIndex++
+                },
+                enabled = selectedRating > 0,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(
+                    text = if (currentQuestionIndex < questions.size - 1) "Next" else "Preview Feedback"
+                )
+            }
         }
     }
 }
