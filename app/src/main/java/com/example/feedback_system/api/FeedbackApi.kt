@@ -22,6 +22,24 @@ data class UserResponse(
     val role: Int
 )
 
+data class FeedbackRequest(
+    val username: String,
+    val trainerName: String,
+    val module: String,
+    val email: String? = null, // Optional email field
+    val question1: Int,
+    val question2: Int,
+    val question3: Int,
+    val question4: Int,
+    val question5: Int,
+    val question6: Int,
+    val question7: Int,
+    val question8: Int,
+    val question9: Int,
+    val question10: Int
+
+)
+
 interface FeedbackApi {
     @POST("/api/auth/register")
     fun register(@Body body: Map<String, String>): Call<Any>
