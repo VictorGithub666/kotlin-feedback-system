@@ -29,11 +29,11 @@ interface FeedbackApi {
     @POST("/api/auth/login")
     fun login(@Body body: Map<String, String>): Call<Map<String, Any>>
 
-    @POST("/api/admin/adminregister")
-    fun adminRegister(@Body body: Map<String, String>): Call<Any>
+    @POST("/api/auth/forgot-password")
+    fun forgotPassword(@Body body: Map<String, String>): Call<Map<String, Any>>
 
-    @POST("/api/admin/adminlogin")
-    fun adminLogin(@Body body: Map<String, String>): Call<Any>
+    @POST("/api/auth/reset-password")
+    fun resetPassword(@Body body: Map<String, @JvmSuppressWildcards Any>): Call<Map<String, Any>>
 
     @GET("/api/questions/select-questions")
     fun getQuestions(): Call<List<Question>>

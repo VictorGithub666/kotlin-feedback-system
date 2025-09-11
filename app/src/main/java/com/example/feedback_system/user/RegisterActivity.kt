@@ -1,5 +1,6 @@
 package com.example.feedback_system.user
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
@@ -14,6 +15,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.feedback_system.R
+import com.example.feedback_system.admin.AdminDashboardActivity
 import com.example.feedback_system.api.ApiClient
 import com.example.feedback_system.ui.theme.FeedbacksystemTheme
 import com.example.feedback_system.ui.theme.PasswordTextField
@@ -72,6 +74,7 @@ fun RegisterScreen() {
             ApiClient.apiService.register(data).enqueue(object : Callback<Any> {
                 override fun onResponse(call: Call<Any>, response: Response<Any>) {
                     Toast.makeText(context, "Registered!", Toast.LENGTH_SHORT).show()
+                    context.startActivity(Intent(context, LoginActivity::class.java))
                 }
 
                 override fun onFailure(call: Call<Any>, t: Throwable) {

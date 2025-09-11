@@ -65,7 +65,7 @@ fun LoginScreen() {
 
         PasswordTextField(value = password, onValueChange = { password = it })
 
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(20.dp))
 
         // Forgot Password Link
         Text(
@@ -73,14 +73,14 @@ fun LoginScreen() {
             modifier = Modifier
                 .align(Alignment.End)
                 .clickable {
-//                    val intent = Intent(context, ForgotPasswordActivity::class.java)
-//                    context.startActivity(intent)
+                    val intent = Intent(context, ForgotPasswordActivity::class.java)
+                    context.startActivity(intent)
                 },
             color = Color.Red,
             style = MaterialTheme.typography.bodySmall
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(20.dp))
 
         RedButton(text = "Login") {
             val data = mapOf("email" to email, "password" to password)
